@@ -5,7 +5,10 @@ module.exports = {
     extend: {
       fontFamily:{
         proxima: ['"Proxima Nova"', 'sans-serif'],
-      }
+      },
+      container: {
+        center: true,
+      },
     },
   },
   plugins: [],
