@@ -25,7 +25,7 @@ export default function TopRestaurantsCard() {
     const data = await fetch(TOP_RESTAURANT_URL);
     const res = await data.json();
     const restaurants =
-      res?.data?.cards[1].card.card.gridElements.infoWithStyle.restaurants;
+      res?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
     setRestaurants(restaurants);
     setPostsPerPage(
       restaurants.slice(

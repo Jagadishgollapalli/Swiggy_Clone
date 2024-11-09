@@ -2,21 +2,37 @@ import React, { useEffect, useState } from "react";
 import TopRestaurantsCard from "./TopRestaurantsCard";
 import { TOTAL_RESTAURANTS_URL } from "../../utils/constants/urls.js";
 import ShimmerCard from "./shimmer/ShimmerCards.js";
+import { useSelector } from "react-redux";
+
 
 export default function Card() {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [open, setOpen] = useState(false);
 
+  const query = useSelector((state) => state.search.query);
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (query) {
+      setRestaurants(
+        allRestaurants.filter((restaurant) =>
+          restaurant.info.name.toLowerCase().includes(query.toLowerCase())
+        )
+      );
+    } else {
+      setRestaurants(allRestaurants);
+    }
+  }, [query, allRestaurants]);
 
   const fetchData = async () => {
     const data = await fetch(TOTAL_RESTAURANTS_URL);
     const res = await data.json();
     const fetchedRestaurants =
-      res?.data?.cards[4].card.card.gridElements.infoWithStyle.restaurants;
+      res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
     setAllRestaurants(fetchedRestaurants); // Store original list
     setRestaurants(fetchedRestaurants);
   };

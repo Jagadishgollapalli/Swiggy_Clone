@@ -1,6 +1,8 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { logo, profile } from "../../assets/images";
+import Search from "./Search";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -10,7 +12,7 @@ export default function Navbar() {
           <div className="relative flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-between sm:justify-start">
               <div className="flex shrink-0 items-center">
-                <img className="h-16 w-auto" src={logo} alt="Your Company" />
+                <Link to="/"><img className="h-16 w-auto" src={logo} alt="Your Company" /></Link>
               </div>
               <div className="sm:hidden">
                 <label
@@ -44,24 +46,19 @@ export default function Navbar() {
               </div>
             </div>
             <div className="hidden sm:flex items-center space-x-4 pr-6">
-              <a
-                href="#"
-                className="rounded-md list-none px-3 py-2 text-sm font-medium text-gray-300 hover:text-white"
-              >
-                <i className="bi bi-search"></i> Search
-              </a>
+              <Search/>
               <a
                 href="#"
                 className="rounded-md list-none px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
               >
                 <i className="bi bi-percent"></i> Offers
               </a>
-              <a
-                href="#"
+              <Link
+                to="/help"
                 className="rounded-md list-none px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
               >
                 <i className="bi bi-patch-question-fill"></i> Help
-              </a>
+              </Link>
               <a
                 href="#"
                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
