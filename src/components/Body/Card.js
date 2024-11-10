@@ -3,7 +3,7 @@ import TopRestaurantsCard from "./TopRestaurantsCard";
 import { TOTAL_RESTAURANTS_URL } from "../../utils/constants/urls.js";
 import ShimmerCard from "./shimmer/ShimmerCards.js";
 import { useSelector } from "react-redux";
-
+import { Link } from "react-router-dom";
 
 export default function Card() {
   const [allRestaurants, setAllRestaurants] = useState([]);
@@ -73,11 +73,13 @@ export default function Card() {
 
           <div className="flex justify-center mt-8">
             <div className="grid gap-6 max-w-[920px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {restaurants.map((item, index) => (
-                <div
+              {restaurants.map((item, index) => ( 
+                <Link
+                  to={`/${item.info.locality}/${item.info.areaName}/${item.info.id}`}
                   key={index}
                   className="w-52 rounded overflow-hidden transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-gray-50 duration-300"
                 >
+                  {console.log(item)}
                   <img
                     className="w-full h-32 rounded-xl object-cover shadow-inner"
                     src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${item.info.cloudinaryImageId}`}
@@ -85,7 +87,7 @@ export default function Card() {
                   />
                   <div className="px-4 py-3">
                     <div className="font-bold text-lg truncate">
-                      {item.info.name}
+                      {item.info.city} {item.info.name}
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="inline-block px-0 py-0.5 text-sm font-bold text-gray-700">
@@ -104,7 +106,7 @@ export default function Card() {
                       ))}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

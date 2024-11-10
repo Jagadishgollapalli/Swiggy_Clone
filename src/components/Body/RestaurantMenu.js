@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import ShimmerMenuCard from "./shimmer/ShimmerMenuCard";
 
 function RestaurantMenu() {
-  const [menuData, setResMenuData] = useState([]);
-  // console.log(menuData?.cards[2]?.card?.card?.info?.name);
+  const [menuData, setResMenuData] = useState(null);
+  const {context, resId} = useParams();
+  console.log(context);
+
+  const itemCard = menuData?.cards[2]?.card?.card?.info;
 
   useEffect(() => {
     fetchMenu();
@@ -12,21 +16,22 @@ function RestaurantMenu() {
 
   const fetchMenu = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=17.4889338&lng=78.3922053&restaurantId=733197"
+      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=17.4889338&lng=78.3922053&restaurantId=${resId}`
     );
     const json = await data.json();
-    console.log(json.data);
     setResMenuData(json.data);
   };
+
+  if (!menuData) {
+    return <ShimmerMenuCard/>;
+  }
 
   return (
     <>
       <div className="mt-12 max-w-[800px] mx-auto">
         <span>Home route / city route </span>
         <div className="flex justify-between items-center mt-12 max-w-[800px] mx-auto">
-          <h1 className="text-2xl font-bold">
-            {menuData?.cards[2]?.card?.card?.info?.name}
-          </h1>
+          <h1 className="text-2xl font-bold">{itemCard?.name}</h1>
         </div>
         <div className="flex justify-center mt-8">
           <div className="max-w-[800px] h-[190px] w-full mx-auto bg-slate-100 shadow-sm rounded-b-3xl">
@@ -35,18 +40,17 @@ function RestaurantMenu() {
                 <div className="px-4 py-3 flex items-center space-x-2">
                   <i className="bi bi-star-fill"></i>
                   <span className="font-semibold">
-                    {menuData?.cards[2]?.card?.card?.info?.avgRating} (
-                    {menuData?.cards[2]?.card?.card?.info?.totalRatingsString})
+                    {itemCard?.avgRating} ({itemCard?.totalRatingsString})
                   </span>
                   <span className="ml-2 font-semibold">
-                    • {menuData?.cards[2]?.card?.card?.info?.costForTwoMessage}
+                    • {itemCard?.costForTwoMessage}
                   </span>
                 </div>
                 <Link
                   to=""
                   className="px-4 flex items-center space-x-1 font-bold text-red-500 underline"
                 >
-                  {menuData.cards[2]?.card?.card?.info?.cuisines.map((e) => (
+                  {itemCard?.cuisines.map((e) => (
                     <span>{e}</span>
                   ))}
                 </Link>
@@ -54,26 +58,27 @@ function RestaurantMenu() {
                   • Outlet{" "}
                   <i className="px-2 font-semibold text-gray-500">
                     {" "}
-                    {menuData.cards[2]?.card?.card?.info?.areaName}{" "}
+                    {itemCard?.areaName}{" "}
                   </i>
                 </span>
                 <span className="px-4 flex font-bold items-center space-x-2">
-                  • {menuData.cards[2]?.card?.card?.info?.sla?.slaString}
+                  • {itemCard?.sla?.slaString}
                 </span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div>
         <div className="max-w-[760px] mx-auto mt-4">
-          {menuData.cards[4].groupedCard.cardGroupMap.REGULAR.cards
-            .slice(1)
+          {menuData?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
+            ?.slice(1)
             .map((innerCard, outerIndex) => (
               <div key={outerIndex} className="mt-4">
                 {innerCard?.card?.card && (
                   <div className="mb-6">
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-between items-center mb-4 .last:border-b-0">
                       <h2 className="font-bold text-xl">
                         {innerCard?.card?.card?.title}
                       </h2>
@@ -91,7 +96,10 @@ function RestaurantMenu() {
                           <ul className="space-y-2 w-full">
                             {innerCard?.card?.card?.itemCards?.map(
                               (item, itemIndex) => (
-                                <div key={itemIndex} className="flex mb-4 pb-4 border-b-2">
+                                <div
+                                  key={itemIndex}
+                                  className="flex mb-4 pb-4 border-b-2"
+                                >
                                   <div className="flex-1">
                                     <li className="text-gray-700 font-bold">
                                       {item?.card?.info?.name}

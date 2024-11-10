@@ -23,12 +23,12 @@ const routes = createBrowserRouter([
         element: <HelpCenter/>
       },
       { 
-        path: "/menu-card",
+        path: "/:locality/:areaName/:resId",
         element: <RestaurantMenu/>
       }
     ]
   }
-])
+])  
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
