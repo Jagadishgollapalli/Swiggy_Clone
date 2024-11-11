@@ -12,8 +12,18 @@ export default function Card() {
 
   const query = useSelector((state) => state.search.query);
 
+  let count = 0;
   useEffect(() => {
     fetchData();
+
+   /** const timer = setInterval(() => {
+      console.log("count" + count++);
+    },1000)
+
+    return(() => {
+      clearInterval(timer);
+    }) */
+
   }, []);
 
   useEffect(() => {
@@ -33,7 +43,7 @@ export default function Card() {
     const res = await data.json();
     const fetchedRestaurants =
       res?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-    setAllRestaurants(fetchedRestaurants); // Store original list
+    setAllRestaurants(fetchedRestaurants);
     setRestaurants(fetchedRestaurants);
   };
 
@@ -79,7 +89,6 @@ export default function Card() {
                   key={index}
                   className="w-52 rounded overflow-hidden transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-gray-50 duration-300"
                 >
-                  {console.log(item)}
                   <img
                     className="w-full h-32 rounded-xl object-cover shadow-inner"
                     src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${item.info.cloudinaryImageId}`}

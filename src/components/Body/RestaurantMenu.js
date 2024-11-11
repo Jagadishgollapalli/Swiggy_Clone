@@ -5,7 +5,9 @@ import ShimmerMenuCard from "./shimmer/ShimmerMenuCard";
 
 function RestaurantMenu() {
   const [menuData, setResMenuData] = useState(null);
-  const {context, resId} = useParams();
+  const [accOpen, setAccOpen] = useState(null);
+
+  const { context, resId } = useParams();
   console.log(context);
 
   const itemCard = menuData?.cards[2]?.card?.card?.info;
@@ -23,14 +25,25 @@ function RestaurantMenu() {
   };
 
   if (!menuData) {
-    return <ShimmerMenuCard/>;
+    return <ShimmerMenuCard />;
   }
+
+  const handleClick = (getIndex) => {
+    if (getIndex === accOpen) {
+      return setAccOpen(null);
+    }
+    setAccOpen(getIndex);
+  };
 
   return (
     <>
       <div className="mt-12 max-w-[800px] mx-auto">
-        <span>Home route / city route </span>
-        <div className="flex justify-between items-center mt-12 max-w-[800px] mx-auto">
+        <span>
+          <Link to="/" className="text-md font-bold text-orange-500 underline">
+            Home
+          </Link>
+        </span>
+        <div className="flex justify-between items-center mt-10 max-w-[800px] mx-auto">
           <h1 className="text-2xl font-bold">{itemCard?.name}</h1>
         </div>
         <div className="flex justify-center mt-8">
@@ -48,7 +61,7 @@ function RestaurantMenu() {
                 </div>
                 <Link
                   to=""
-                  className="px-4 flex items-center space-x-1 font-bold text-red-500 underline"
+                  className="px-4 flex items-center space-x-1 font-bold text-green-500 underline"
                 >
                   {itemCard?.cuisines.map((e) => (
                     <span>{e}</span>
@@ -75,16 +88,28 @@ function RestaurantMenu() {
           {menuData?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
             ?.slice(1)
             .map((innerCard, outerIndex) => (
-              <div key={outerIndex} className="mt-4">
-                {innerCard?.card?.card && (
+              <div key={outerIndex} className="mt-10">
+                {innerCard?.card?.card && innerCard?.card?.card?.itemCards && (
                   <div className="mb-6">
-                    <div className="flex justify-between items-center mb-4 .last:border-b-0">
+                    <div className="flex justify-between items-center mb-4">
                       <h2 className="font-bold text-xl">
-                        {innerCard?.card?.card?.title}
+                        {innerCard?.card?.card?.title} (
+                        {innerCard?.card?.card?.itemCards?.length})
                       </h2>
                       {innerCard?.card?.card?.title ? (
-                        <span className="cursor-pointer">
-                          <i class="bi bi-chevron-up"></i>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => handleClick(outerIndex)}
+                        >
+                          {accOpen == outerIndex ? (
+                            <>
+                              <i className="bi bi-chevron-up"></i>
+                            </>
+                          ) : (
+                            <>
+                              <i className="bi bi-chevron-down"></i>
+                            </>
+                          )}
                         </span>
                       ) : (
                         ""
@@ -98,27 +123,52 @@ function RestaurantMenu() {
                               (item, itemIndex) => (
                                 <div
                                   key={itemIndex}
-                                  className="flex mb-4 pb-4 border-b-2"
+                                  className={
+                                    accOpen === outerIndex
+                                      ? "flex mb-4 pb-4 border-b-2"
+                                      : "hidden"
+                                  }
                                 >
                                   <div className="flex-1">
                                     <li className="text-gray-700 font-bold">
                                       {item?.card?.info?.name}
                                     </li>
                                     <li className="font-bold mt-1">
-                                      ₹ {item?.card?.info?.price / 100}
+                                      {item?.card?.info?.price ? (
+                                        <span>
+                                          ₹ {item?.card?.info?.price / 100}
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          ₹{" "}
+                                          {item?.card?.info?.defaultPrice / 100}
+                                        </span>
+                                      )}
                                     </li>
-                                    <li className="font-bold text-green-700">
-                                      <i className="bi bi-star-fill"></i>
-                                      {
-                                        item?.card?.info?.ratings
-                                          ?.aggregatedRating?.rating
-                                      }{" "}
-                                      (
-                                      {
-                                        item?.card?.info?.ratings
-                                          ?.aggregatedRating?.ratingCountV2
-                                      }
-                                      )
+                                    <li className="font-bold">
+                                      {!item?.card?.info?.ratings
+                                        ?.aggregatedRating?.rating ? (
+                                        <>
+                                          <i className="bi bi-star-fill text-red-500 font-sm text-xs line-through">
+                                            {" "}
+                                            No Ratings
+                                          </i>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="bi bi-star-fill text-green-700"></i>
+                                          {
+                                            item?.card?.info?.ratings
+                                              ?.aggregatedRating?.rating
+                                          }{" "}
+                                          (
+                                          {
+                                            item?.card?.info?.ratings
+                                              ?.aggregatedRating?.ratingCountV2
+                                          }
+                                          )
+                                        </>
+                                      )}
                                     </li>
                                     <li className="text-gray-600 mt-2">
                                       {item?.card?.info?.description}
@@ -129,7 +179,7 @@ function RestaurantMenu() {
                                     <img
                                       className="w-32 h-32 object-cover rounded-lg shadow-md"
                                       src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${item?.card?.info?.imageId}`}
-                                      alt={item?.card?.info?.name}
+                                      alt={"No image available"}
                                     />
                                   </div>
                                 </div>

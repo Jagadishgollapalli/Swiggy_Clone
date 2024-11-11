@@ -75,3 +75,10 @@ npx parcel build index.html
 Output:
 The output of this command is typically placed in a dist (distribution) folder, which contains all the files necessary to deploy your application.
 ---
+
+
+key Takeaways : 
+
+1. In RestaurantMenu.js in the ln:7 const [menuData, setResMenuData] = useState([]);  ----> If we keep [], it throws the error that TypeError: Cannot read properties of undefined (reading '2'). this is because we are trying to load the data even before we make an API call. we have to set the property to useState(null);, so that it will know that we still don't have the data to load. so it waits for the API Call to complete. Until then we can use a Shimmer UI to tell the user the data is loading.
+
+ln:19 - ln:25 Card.js , Very important topic must and should every senior developer should know.
