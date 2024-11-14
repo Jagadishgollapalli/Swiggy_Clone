@@ -5,26 +5,25 @@ import ShimmerCard from "./shimmer/ShimmerCards.js";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-export default function Card() {
+function Card() {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [open, setOpen] = useState(false);
 
   const query = useSelector((state) => state.search.query);
 
-  let count = 0;
   useEffect(() => {
     fetchData();
-
-   /** const timer = setInterval(() => {
-      console.log("count" + count++);
-    },1000)
-
-    return(() => {
-      clearInterval(timer);
-    }) */
-
   }, []);
+
+   /*useEffect(()=>{
+   const timer = setInterval(() => {
+       console.log(count)
+     },1000)
+     return(() => {
+       clearInterval(timer);
+     })
+  },[])*/
 
   useEffect(() => {
     if (query) {
@@ -124,3 +123,5 @@ export default function Card() {
     </>
   );
 }
+
+export default Card;

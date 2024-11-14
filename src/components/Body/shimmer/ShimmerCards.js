@@ -15,8 +15,8 @@ export default function ShimmerCard() {
         <div className="grid gap-6 max-w-[920px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {dummyArr.map((e, i) => {
             return (
-              <>
-                <div key={i} className="w-52 rounded overflow-hidden animate-pulse bg-gray-200">
+              <div key={i}>
+                <div className="w-52 rounded overflow-hidden animate-pulse bg-gray-200">
                   <div className="w-full h-32 bg-gray-300 rounded-xl mb-4"></div>
                   <div className="px-4 py-3">
                     <div className="h-5 bg-gray-300 rounded mb-2"></div>
@@ -28,7 +28,7 @@ export default function ShimmerCard() {
                     <div className="mt-2 h-4 bg-gray-300 rounded w-full"></div>
                   </div>
                 </div>
-              </>
+              </div>
             );
           })}
         </div>

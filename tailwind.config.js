@@ -9,6 +9,10 @@ module.exports = {
       container: {
         center: true,
       },
+      transitionDelay: {
+        '0': '0ms',
+        '2000': '2000ms',
+       }
     },
   },
   plugins: [],

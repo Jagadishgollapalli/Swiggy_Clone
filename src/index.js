@@ -1,37 +1,52 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import store from './store/Store';
-import { Provider } from 'react-redux';
-import {createBrowserRouter, Routes, Route, Outlet, RouterProvider} from "react-router-dom";
-import Card from './components/Body/Card';
-import HelpCenter from "./components/Header/HelpCenter";
-import RestaurantMenu from './components/Body/RestaurantMenu';
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import store from "./store/Store";
+import { Provider } from "react-redux";
+import {
+  createBrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import Card from "./components/Body/Card";
+import RestaurantMenu from "./components/Body/RestaurantMenu";
+import Cart from "./components/Header/Cart";
 
+const HelpCenter = React.lazy(() => import("./components/Header/HelpCenter"));
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
-    children:[
+    element: <App />,
+    children: [
       {
         path: "/",
-        element: <Card/> 
-      },{
-        path: "/help",
-        element: <HelpCenter/>
+        element: <Card />,
       },
-      { 
+      {
+        path: "/help",
+        element: (
+          <Suspense>
+            <HelpCenter />{" "}
+          </Suspense>
+        ),
+      },
+      {
         path: "/:locality/:areaName/:resId",
-        element: <RestaurantMenu/>
+        element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       }
-    ]
-  }
-])  
+    ],
+  },
+]);
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <RouterProvider router={routes} />

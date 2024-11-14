@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import {useDispatch} from "react-redux";
-import { setQuery } from "../../store/slices/searchSlice";
+import { setQuery } from "../../store/slices/SearchSlice";
 
 export default function Search() {
     const [input, searchInput] = useState("");
@@ -19,7 +19,7 @@ export default function Search() {
             type="text"
             name="search"
             id="search"
-            className="block w-60 rounded-full border-0 py-2 pl-10 pr-4 font-proxima text-md bg-gray-50 placeholder-gray-500"
+            className="block w-60 rounded-full border-0 py-2 pl-10 pr-4 font-proxima text-md bg-gray-200 border-b-2 placeholder-gray-500"
             placeholder="Search for food"
             value={input}
             onChange={handleChange}
