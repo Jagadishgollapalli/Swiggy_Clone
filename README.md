@@ -1,4 +1,4 @@
-# This is a complete Swiggy clone WEB project in collaboration
+# This is a complete Swiggy clone WEB project
 
 ### Package.JSON vs Package-lock.JSON
 
